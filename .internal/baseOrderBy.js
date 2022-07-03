@@ -18,12 +18,11 @@ const identity = (value) => value;
 function baseOrderBy(collection, iteratees, orders) {
   if (iteratees.length) {
     iteratees = iteratees.map((iteratee) => {
-      if (Array.isArray(iteratee)) {
-        return (value) =>
-          baseGet(value, iteratee.length === 1 ? iteratee[0] : iteratee);
-      }
+      //if (Array.isArray(iteratee)) {
+      return (value) => baseGet(value, iteratee);
+      //}
 
-      return iteratee;
+      //return iteratee;
     });
   } else {
     iteratees = [identity];

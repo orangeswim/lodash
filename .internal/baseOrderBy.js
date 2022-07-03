@@ -3,7 +3,6 @@ import baseSortBy from "./baseSortBy.js";
 import baseGet from "./baseGet.js";
 import compareMultiple from "./compareMultiple.js";
 import isArrayLike from "../isArrayLike.js";
-import baseUnary from "../modularize/_baseUnary.js";
 
 const identity = (value) => value;
 
@@ -17,7 +16,18 @@ const identity = (value) => value;
  * @returns {Array} Returns the new sorted array.
  */
 function baseOrderBy(collection, iteratees, orders) {
-  iteratees = iteratees.length ? iteratees : [(value) => value];
+  if (iteratees.length) {
+    iteratees = iteratees.map((iteratee) => {
+      if (Array.isArray(iteratee)) {
+        return (value) =>
+          baseGet(value, iteratee.length === 1 ? iteratee[0] : iteratee);
+      }
+
+      return iteratee;
+    });
+  } else {
+    iteratees = [identity];
+  }
 
   let criteriaIndex = -1;
   let eachIndex = -1;

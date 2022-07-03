@@ -17,21 +17,7 @@ const identity = (value) => value;
  * @returns {Array} Returns the new sorted array.
  */
 function baseOrderBy(collection, iteratees, orders) {
-  if (iteratees.length) {
-    iteratees = iteratees.map((iteratee) => {
-      if (Array.isArray(iteratee)) {
-        return (value) =>
-          baseGet(
-            value,
-            iteratee.length === 1 ? iteratee[0] : baseUnary(iteratee)
-          );
-      }
-
-      return iteratee;
-    });
-  } else {
-    iteratees = [identity];
-  }
+  iteratees = iteratees.length ? iteratees : [(value) => value];
 
   let criteriaIndex = -1;
   let eachIndex = -1;
